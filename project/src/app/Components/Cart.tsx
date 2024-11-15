@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CartButton from "./CartButton";
 import Image from "next/image";
 import { CartItem } from "../types";
 import { useRouter } from "next/navigation";
+import { fetchOrderNumber } from "../api";
 
 interface CartProps {
   cartItems: CartItem[];
@@ -16,25 +17,39 @@ const CartComponent: React.FC<CartProps> = ({
   onIncreaseItemQuantity,
   onRemoveItemFromCart,
 }) => {
-  console.log("Cart items in CartComponent:", cartItems);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const router = useRouter();
+  const [orderNumber, setOrderNumber] = useState<string | null>(null);
+  const router = useRouter(); // Move this outside of the handler
 
   // Calculate total item count in the cart
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-
-  // Toggle the cart overlay
-  const toggleCart = () => setIsCartOpen(!isCartOpen);
-
   // Calculate the total price
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
 
+  // Toggle the cart overlay
+  const toggleCart = () => setIsCartOpen(!isCartOpen);
+
   // Handle checkout button click
-  const handleCheckout = () => {
-    router.push("/checkout"); // Navigate to the checkout page
+  const handleCheckout = async () => {
+    const apiKey = "yum-vKkkQHqQboi7c6JF";
+    const tenantId = "hg72";
+    const itemsToSend = cartItems.map((item) => item.id);
+    console.log("Items being sent to API:", itemsToSend);
+    try {
+      const orderNumber = await fetchOrderNumber(apiKey, tenantId, itemsToSend);
+      console.log("Order created successfully:", orderNumber);
+      if (!orderNumber) {
+        throw new Error('Order number is undefined');
+      }
+      // Navigate to EtaPage with the orderNumber
+      const url = `/checkout?orderNumber=${orderNumber}`;
+      router.push(url);
+    } catch (error) {
+      console.log("Failed to create order:", error);
+    }
   };
 
   return (
@@ -68,21 +83,21 @@ const CartComponent: React.FC<CartProps> = ({
         <div className="cart-overlay fixed top-0 w-full h-full bg-white shadow-lg p-4 z-50 overflow-y-auto">
           {/* Cart Items and Actions */}
           <div className="mt-20">
-          <div className="absolute top-4 right-6">
-            <button
-              className="flex h-16 w-16 bg-snow rounded justify-around cursor-pointer"
-              onClick={toggleCart}
-            >
-              <Image
-                className="dark:invert flex self-center"
-                src="/cart.svg"
-                alt="Cart Icon"
-                width={32}
-                height={30}
-                priority
-              />
-            </button>
-          </div>
+            <div className="absolute top-4 right-6">
+              <button
+                className="flex h-16 w-16 bg-snow rounded justify-around cursor-pointer"
+                onClick={toggleCart}
+              >
+                <Image
+                  className="dark:invert flex self-center"
+                  src="/cart.svg"
+                  alt="Cart Icon"
+                  width={32}
+                  height={30}
+                  priority
+                />
+              </button>
+            </div>
           </div>
 
           {/* Cart Items List */}
@@ -123,13 +138,15 @@ const CartComponent: React.FC<CartProps> = ({
           {/* Checkout Button */}
           {cartItems.length > 0 && (
             <div className="flex w-[358px] mt-4 self-end place-self-center h-full  flex-col gap-4 text-center">
-              <div className="bg-shade24dark w-full rounded flex flex-row  p-4">
+              <div className="bg-shade24dark w-full rounded flex flex-row justify-between p-4">
                 <div className="">
                   <p className="font-bold text-2xl text-coal">TOTAL</p>
                   <p className="text-sm font-medium text-coal">inkl 20% moms</p>
                 </div>
                 <div className="flex align-self-end">
-                  <p className="text-coal text-3xl font-bold">{totalPrice}</p>
+                  <p className="text-coal text-3xl font-bold ">
+                    {totalPrice} SEK
+                  </p>
                 </div>
               </div>
               <button

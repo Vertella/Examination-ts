@@ -50,8 +50,8 @@ export const MenuComponent: React.FC<MenuComponentProps> = ({ onAddToCart }) => 
       <h1 className="text-3xl font-bold text-left mb-4 ">MENY</h1>
       <div className="flex flex-col gap-4 w-96 overflow-y-auto">
         <WontonsSection items={menuItems.wontons.items} onAddToCart={onAddToCart} />
-        <DipsSection items={menuItems.dips.items} onAddToCart={onAddToCart} />
-        <DrinksSection items={menuItems.drinks.items} price={menuItems.drinks.items.price} onAddToCart={onAddToCart} />
+        <DipsSection items={menuItems.dips.items} price={menuItems.dips?.items[0]?.price} onAddToCart={onAddToCart} />
+        <DrinksSection items={menuItems.drinks.items} price={menuItems.drinks?.items[0]?.price} onAddToCart={onAddToCart} />
       </div>
 
 

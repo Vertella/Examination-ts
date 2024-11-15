@@ -9,6 +9,10 @@ export interface ApiKeyResponse {
   export interface TenantResponse {
     tenantId: string;
   }
+
+  export interface OrderResponse {
+    orderNumber: string;
+  }
   
   export interface MenuItem {
     id: number;

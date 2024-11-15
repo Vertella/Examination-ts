@@ -10,7 +10,6 @@ export default function Home() {
 
   // Function to add an item to the cart
   const addItemToCart = (item: MenuItem) => {
-
     setItemsInCart((prevItems) => {
       const updatedItems = [...prevItems];
       const existingItemIndex = updatedItems.findIndex((cartItem) => cartItem.id === item.id);

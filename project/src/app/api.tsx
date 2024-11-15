@@ -1,6 +1,5 @@
 // api.ts
-import { ApiKeyResponse, TenantResponse, MenuItem } from "./types";
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { ApiKeyResponse, TenantResponse } from "./types";
 
 export async function fetchApiKey(): Promise<string> {
   const response = await fetch(
@@ -24,28 +23,28 @@ export async function fetchApiKey(): Promise<string> {
   return data.apiKey;
 }
 
-export async function registerFoodTruck(apiKey: string): Promise<string> {
+export async function registerFoodTruck(apiKey: string, name: string ): Promise<string> {
   const response = await fetch(
     "http://yumyum-assets.s3-website.eu-north-1.amazonaws.com/tenants",
     {
       method: "POST",
       headers: {
-        "x-zocom": apiKey, // Include the API key in the header
+        "x-zocom": apiKey, 
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: "Yum Yum Gim Mi Sum", // Example payload
-        // other registration details, like location, type, etc.
+        name
       }),
     }
   );
 
   if (!response.ok) {
+    console.error("Registration failed:", await response.text());
     throw new Error("Failed to register food truck");
   }
 
   const data: TenantResponse = await response.json();
-  return data.tenantId; // Assuming this is the field returned from registration
+  return data.tenantId;
 }
 
 export async function fetchMenuItems(type: string,
@@ -53,7 +52,7 @@ export async function fetchMenuItems(type: string,
     const response = await fetch(`https://fdnzawlcf6.execute-api.eu-north-1.amazonaws.com/menu?type=${type}`, {
         method: "GET",
         headers: {
-          "x-zocom": "yum-KwOi5vm2TYNmi8Dd",
+          "x-zocom": apiKey,
           "Content-Type": "application/json",
         },
       }
@@ -66,3 +65,19 @@ export async function fetchMenuItems(type: string,
     const data = await response.json();
     return data;
   }
+
+  export async function fetchOrderNumber(apiKey: string, tenantId: string, itemsToSend: number[] ): Promise<string> {
+    const response = await fetch(`https://fdnzawlcf6.execute-api.eu-north-1.amazonaws.com/${tenantId}/orders`, {
+      method: "POST",
+      headers: {
+        "x-zocom": apiKey,
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        itemsToSend:[],
+      }),
+  }
+);
+  const data = await response.json();
+  return data.orderNumber;
+}

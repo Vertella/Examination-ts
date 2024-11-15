@@ -25,9 +25,9 @@ const DipsSection: React.FC<DipsSectionProps> = ({ items, price, onAddToCart }) 
       ) : (
         <div className="flex flex-wrap">
           <div className="flex rounded">
-            <p className="flex flex-wrap m-2 gap-4 text-sm font-medium" >
+            <div className="flex flex-wrap m-2 gap-4 text-sm font-medium" >
               {dipNames}
-            </p>
+            </div>
           </div>
         </div>
       )}
