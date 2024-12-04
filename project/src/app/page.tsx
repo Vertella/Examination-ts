@@ -18,7 +18,6 @@ export default function Home() {
       } else {
         updatedItems.push({ ...item, quantity: 1 });
       }
-      console.log("ARE YOU FIRING TWICE", updatedItems);
       return updatedItems;
     });
   };

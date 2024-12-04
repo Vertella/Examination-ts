@@ -19,7 +19,7 @@ const CartComponent: React.FC<CartProps> = ({
 }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
-  const router = useRouter(); // Move this outside of the handler
+  const router = useRouter(); 
 
   // Calculate total item count in the cart
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);

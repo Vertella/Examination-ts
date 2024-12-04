@@ -9,11 +9,11 @@ interface DipsSectionProps {
 
 const DipsSection: React.FC<DipsSectionProps> = ({ items, price, onAddToCart }) => {
   const dipNames = items.map((item) => (
-    <p key={item.id} className="bg-shade24 rounded py-2 px-3 font-medium text-sm cursor-pointer" onClick={() => onAddToCart(item)}>{item.name}</p>
+    <p key={item.id} className="bg-shade24 rounded py-2 px-3 font-medium text-sm cursor-pointer hover:bg-coal active:bg-clay" onClick={() => onAddToCart(item)}>{item.name}</p>
   ));
 
   return (
-    <div className="w-full bg-clay p-4 rounded-lg">
+    <div className="w-full bg-clay p-4 rounded-lg ">
       <div className="flex">
         <h2 className="text-2xl font-bold">DIPSÅS</h2>
         <div className="flex-grow mx-2 border-b-2 border-dotted border-snow"></div>
@@ -25,7 +25,7 @@ const DipsSection: React.FC<DipsSectionProps> = ({ items, price, onAddToCart }) 
       ) : (
         <div className="flex flex-wrap">
           <div className="flex rounded">
-            <div className="flex flex-wrap m-2 gap-4 text-sm font-medium" >
+            <div className="flex flex-wrap m-2 gap-4 text-sm font-medium " >
               {dipNames}
             </div>
           </div>

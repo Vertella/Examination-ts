@@ -16,7 +16,7 @@ const WontonsSection: React.FC<WontonsSectionProps> = ({ items, onAddToCart }) =
     ) : ( 
         Array.isArray(items) &&
       items.map((item, index) => (
-        <div key={index} className="flex flex-col p-4 cursor-pointer" 
+        <div key={index} className="flex flex-col p-4 cursor-pointer hover:bg-coal active:bg-clay hover:rounded" 
         onClick={() => {
             console.log("Item clicked:", item);
             onAddToCart(item)}} // Add click handler

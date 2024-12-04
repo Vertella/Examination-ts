@@ -17,7 +17,7 @@ const DrinksSection: React.FC<DrinksSectionProps> = ({
     return (
     <p
       key={item.id}
-      className="bg-shade24 rounded py-2 px-3 cursor-pointer"
+      className="bg-shade24 rounded py-2 px-3 cursor-pointer hover:bg-coal active:bg-clay"
       onClick={() => onAddToCart(item)}
     >
       {item.name}
