@@ -74,10 +74,11 @@ export async function fetchMenuItems(type: string,
           "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        itemsToSend:[],
+        "items" :itemsToSend,
       }),
   }
 );
   const data = await response.json();
-  return data.orderNumber;
+  const orderNumber = data.order.id;
+  return orderNumber;
 }

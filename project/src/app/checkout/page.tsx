@@ -7,11 +7,9 @@ import { useRouter } from "next/router";
 
 
 const EtaPage: React.FC = () => {
+
     const searchParams = useSearchParams();
-  //const orderNumber = searchParams.get("orderNumber");
-  const router = useRouter();
-  const { orderNumber } = router.query;
-  console.log(orderNumber); 
+    const orderNumber = searchParams.get("orderNumber");
   return (
     <div className="bg-clay w-full h-screen flex flex-col items-center">
       <div className="flex self-center mt-20">
@@ -33,8 +31,9 @@ const EtaPage: React.FC = () => {
         <div className="m-6">
           <p className="font-medium text-2xl text-center">ETA 5 MIN</p>
         </div>
-        {/* TENANT HERE ? */}
-        <div> {orderNumber} </div>
+        {/* ORDER NR  */}
+        <div className="text-center flex flex-row justify-center">
+          <p>#</p>{orderNumber} </div>
       </div>
       <div className="flex w-[358px] mt-4 place-self-center place-content-end h-full flex-col gap-4 mb-4">
         <div className="bg-shade24dark w-full rounded border border-snow flex flex-row p-4">

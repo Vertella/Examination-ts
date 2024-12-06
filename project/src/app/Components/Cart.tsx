@@ -13,13 +13,15 @@ interface CartProps {
 }
 
 const CartComponent: React.FC<CartProps> = ({
+  
   cartItems = [],
   onIncreaseItemQuantity,
   onRemoveItemFromCart,
 }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
-  const router = useRouter(); 
+  //const router = useRouter(); 
+  const router = useRouter();
 
   // Calculate total item count in the cart
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -34,6 +36,7 @@ const CartComponent: React.FC<CartProps> = ({
 
   // Handle checkout button click
   const handleCheckout = async () => {
+    console.log("Checkout button clicked");
     const apiKey = "yum-vKkkQHqQboi7c6JF";
     const tenantId = "hg72";
     const itemsToSend = cartItems.map((item) => item.id);
@@ -43,10 +46,10 @@ const CartComponent: React.FC<CartProps> = ({
       console.log("Order created successfully:", orderNumber);
       if (!orderNumber) {
         throw new Error('Order number is undefined');
+      
       }
-      // Navigate to EtaPage with the orderNumber
-      const url = `/checkout?orderNumber=${orderNumber}`;
-      router.push(url);
+      console.log("Navigating to checkout page with order number:", orderNumber); // Log the navigation
+      router.push( `/checkout?orderNumber=${orderNumber}`);
     } catch (error) {
       console.log("Failed to create order:", error);
     }
